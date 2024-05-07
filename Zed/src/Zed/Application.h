@@ -1,5 +1,5 @@
-#ifndef SANDBOX_APPLICATION_H
-#define SANDBOX_APPLICATION_H
+#ifndef ZED_APPLICATION_H
+#define ZED_APPLICATION_H
 
 namespace Zed{
     class Application {
@@ -14,4 +14,4 @@ namespace Zed{
 
 
 
-#endif //SANDBOX_APPLICATION_H
+#endif //ZED_APPLICATION_H

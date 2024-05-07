@@ -9,4 +9,6 @@ set(SRC_LIST
 add_library(ZedEngine STATIC ${SRC_LIST})
 
 target_include_directories(ZedEngine PUBLIC 
-                            vendor/spdlog/include)
+                            vendor/spdlog/include
+                            src/Zed/Core
+                            src/Zed/Events)
