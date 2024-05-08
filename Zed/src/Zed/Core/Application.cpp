@@ -1,16 +1,29 @@
-
+#include <functional>
 #include "Zed/Core/Application.h"
 #include "Zed/Core/Log.h"
 #include "Zed/Events/ApplicationEvent.h"
 #include <glad/glad.h>
 
 namespace Zed{
+    #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
     Application::Application() {
         m_window = std::unique_ptr<Window>(Window::Create());
+        m_window->SetEventCallback(BIND_EVENT_FN(OnEvent));
     }
 
     Application::~Application() {
 
+    }
+
+    void Application::OnEvent(Event &e) {
+        EventDispatcher dispatcher(e);
+        dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+        ZED_CORE_TRACE("{0}", e.ToString());
+    }
+
+    bool Application::OnWindowClose(WindowCloseEvent &e) {
+        is_running = false;
+        return true;
     }
 
     void Application::Run() {

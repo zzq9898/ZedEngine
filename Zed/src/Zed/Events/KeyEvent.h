@@ -4,7 +4,7 @@
 #include "Zed/Events/Event.h"
 #include "Zed/Core/KeyCodes.h"
 
-namespace Hazel{
+namespace Zed{
     class KeyEvent : public Event {
     public:
         KeyCode GetKeyCode() const {return m_KeyCode;}
@@ -18,7 +18,7 @@ namespace Hazel{
     class KeyPressedEvent : public KeyEvent {
     public:
         KeyPressedEvent(const KeyCode keycode, bool isRepeat = false)
-        : KeyEvent(keycode), m_isRepeat(isRepeat){}
+        : KeyEvent(keycode), m_IsRepeat(isRepeat){}
 
         bool IsRepeat() const {return m_IsRepeat;}
 
