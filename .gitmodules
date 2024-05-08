@@ -1,3 +1,6 @@
 [submodule "Zed/vendor/spdlog"]
 	path = Zed/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Zed/vendor/GLFW"]
+	path = Zed/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
