@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "Zed/Core/Application.h"
 #include "Zed/Core/Log.h"
+#include "Zed/Core/Layer.h"
 
 // -----Entry Point-------
 #include "Zed/Core/EntryPoint.h"

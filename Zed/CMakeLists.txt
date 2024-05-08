@@ -6,7 +6,9 @@ set(SRC_LIST
     vendor/GLAD/src/glad.c
     src/Platform/Windows/WindowsWindow.cpp
     src/Zed/Core/Application.cpp
-    src/Zed/Core/Log.cpp)
+    src/Zed/Core/Log.cpp
+    src/Zed/Core/Layer.cpp
+    src/Zed/Core/LayerStack.cpp)
 
 add_library(ZedEngine STATIC ${SRC_LIST})
 
