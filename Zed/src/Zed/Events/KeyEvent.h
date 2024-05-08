@@ -1,8 +1,8 @@
 #ifndef ZED_KEYEVENT_H
 #define ZED_KEYEVENT_H
 
-#include "Event.h"
-#include "KeyCodes.h"
+#include "Zed/Events/Event.h"
+#include "Zed/Core/KeyCodes.h"
 
 namespace Hazel{
     class KeyEvent : public Event {
@@ -12,7 +12,7 @@ namespace Hazel{
 
     protected:
         KeyEvent(const KeyCode keycode) : m_KeyCode(keycode){}
-        keyCode m_KeyCode;
+        KeyCode m_KeyCode;
     };
 
     class KeyPressedEvent : public KeyEvent {
@@ -34,34 +34,37 @@ namespace Hazel{
         bool m_IsRepeat;
     };
 
-    class KeyReleaseEvent : public KeyEvent {
-    public:
+    class KeyReleasedEvent : public KeyEvent
+	{
+	public:
+		KeyReleasedEvent(const KeyCode keycode)
+			: KeyEvent(keycode) {}
 
-        KeyReleaseEvent(const KeyCode keycode) : KeyEvent(keycode){}
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyReleasedEvent: " << m_KeyCode;
+			return ss.str();
+		}
 
-        std::string ToString() const override {
-            std::stringstream ss;
-            ss << "KeyPressedEvent : " << m_KeyCode << " (repeat = " << m_IsRepeat << ")";
-            return ss.str();
-        }
+		EVENT_CLASS_TYPE(KeyReleased)
+	};
 
-    private:
-        bool m_IsRepeat;
-    };
+	class KeyTypedEvent : public KeyEvent
+	{
+	public:
+		KeyTypedEvent(const KeyCode keycode)
+			: KeyEvent(keycode) {}
 
-    class KeyTypedEvent : public KeyEvent {
-    public:
-        KeyTypedEvent(const KeyCode keycode) : KeyEvent(keycode){}
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "KeyTypedEvent: " << m_KeyCode;
+			return ss.str();
+		}
 
-        std::string ToString() const override
-        {
-            std::stringstream ss;
-            ss << "KeyTypedEvent: " << m_KeyCode;
-            return ss.str();
-        }
-
-        EVENT_CLASS_TYPE(KeyTyped);
-    };
+		EVENT_CLASS_TYPE(KeyTyped)
+	};
 
 
 }

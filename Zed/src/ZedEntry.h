@@ -2,10 +2,11 @@
 #define ZED_ENTRY_H
 
 #include <stdio.h>
-#include "Zed/Application.h"
-#include "Zed/Log.h"
+#include "Zed/Core/Application.h"
+#include "Zed/Core/Log.h"
+
+// -----Entry Point-------
+#include "Zed/Core/EntryPoint.h"
 
 #endif //ZED_ENTRY_H
 
-// -----Entry Point-------
-#include "Zed/EntryPoint.h"

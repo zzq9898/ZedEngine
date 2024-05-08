@@ -1,30 +1,31 @@
 #ifndef ZED_MOUSEEVENT_H
 #define ZED_MOUSEEVENT_H
 
-#include "Event.h"
-#include "MouseCodes.h"
+#include "Zed/Events/Event.h"
+#include "Zed/Core/MouseCodes.h"
 
 namespace Zed {
-    class MouseMovedEvent : public Event {
-    public:
-        MouseMovedEvent(const float x, const float y) : m_MouseX(x), m_MouseY(y){
-        }
+    class MouseMovedEvent : public Event
+	{
+	public:
+		MouseMovedEvent(const float x, const float y)
+			: m_MouseX(x), m_MouseY(y) {}
 
-        float GetX() const {return m_MouseX;}
-        float GetY() const {return m_MouseY;}
+		float GetX() const { return m_MouseX; }
+		float GetY() const { return m_MouseY; }
 
-        std::string ToString() const override {
-            std::stringstream ss;
-            ss << "MouseMovedEvent: " << m_MouseX << "," << m_MouseY;
-            return ss.str();
-        }
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "MouseMovedEvent: " << m_MouseX << ", " << m_MouseY;
+			return ss.str();
+		}
 
-        EVENT_CLASS_TYPE(MouseMoved)
-        EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
-
-    private:
-        float m_MouseX, m_MouseY;
-    };
+		EVENT_CLASS_TYPE(MouseMoved)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+	private:
+		float m_MouseX, m_MouseY;
+	};
 
     class MouseScrolledEvent : public Event {
     public:

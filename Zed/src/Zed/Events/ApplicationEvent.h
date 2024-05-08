@@ -1,7 +1,7 @@
 #ifndef ZED_APP_EVENT_H
 #define ZED_APP_EVENT_H
 
-#include "Event.h"
+#include "Zed/Events/Event.h"
 
 namespace Zed {
     class WindowResizeEvent : public Event {

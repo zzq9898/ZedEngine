@@ -1,7 +1,9 @@
 
-#include "Application.h"
-#include "ApplicationEvent.h"
-#include "Log.h"
+#include "Zed/Core/Application.h"
+#include "Zed/Core/Log.h"
+
+#include "Zed/Events/ApplicationEvent.h"
+
 
 namespace Zed{
     Application::Application() {

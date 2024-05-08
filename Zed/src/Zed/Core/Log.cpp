@@ -1,4 +1,4 @@
-#include "Log.h"
+#include "Zed/Core/Log.h"
 
 namespace Zed{
 

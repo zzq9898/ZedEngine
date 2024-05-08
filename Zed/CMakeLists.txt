@@ -3,12 +3,11 @@ set(CMAKE_CXX_STANDARD 11)
 project(ZedEngine)
 
 set(SRC_LIST 
-    src/Zed/Application.cpp
-    src/Zed/Log.cpp)
+    src/Zed/Core/Application.cpp
+    src/Zed/Core/Log.cpp)
 
 add_library(ZedEngine STATIC ${SRC_LIST})
 
 target_include_directories(ZedEngine PUBLIC 
                             vendor/spdlog/include
-                            src/Zed/Core
-                            src/Zed/Events)
+                            src)
