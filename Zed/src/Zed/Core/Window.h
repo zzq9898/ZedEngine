@@ -1,10 +1,10 @@
 #pragma once
-
-#include "Zed/Core/Base.h"
-#include "Zed/Events/Event.h"
-
 #include <sstream>
 #include <stdint.h>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include "Zed/Core/Base.h"
+#include "Zed/Events/Event.h"
 
 namespace Zed {
 
@@ -40,7 +40,7 @@ namespace Zed {
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
 
-		//virtual void* GetNativeWindow() const = 0;
+		virtual GLFWwindow* GetNativeWindow(){return nullptr;};
 
 		static Window* Create(const WindowProps& props = WindowProps());
 	};

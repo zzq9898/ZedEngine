@@ -4,3 +4,6 @@
 [submodule "Zed/vendor/GLFW"]
 	path = Zed/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
+[submodule "Zed/vendor/imgui"]
+	path = Zed/vendor/imgui
+	url = https://github.com/ocornut/imgui.git

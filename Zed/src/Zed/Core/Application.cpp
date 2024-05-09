@@ -6,9 +6,11 @@
 
 namespace Zed{
     #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+    Application* Application::s_Instance = nullptr;
     Application::Application() {
-        m_window = std::unique_ptr<Window>(Window::Create());
-        m_window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+        s_Instance = this;
+        m_Window = std::unique_ptr<Window>(Window::Create());
+        m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
     }
 
     Application::~Application() {
@@ -17,10 +19,12 @@ namespace Zed{
 
     void Application::PushLayer(Layer *layer) {
         m_LayerStack.PushLayer(layer);
+        layer->OnAttach();
     }
 
     void Application::PushOverlay(Layer *layer) {
         m_LayerStack.PushOverlay(layer);
+        layer->OnAttach();
     }
 
     void Application::OnEvent(Event &e) {
@@ -37,7 +41,7 @@ namespace Zed{
     }
 
     bool Application::OnWindowClose(WindowCloseEvent &e) {
-        is_running = false;
+        m_isRunning = false;
         return true;
     }
 
@@ -51,13 +55,13 @@ namespace Zed{
             ZED_TRACE(e.ToString());
         }
 
-        while(is_running) {
+        while(m_isRunning) {
             glClearColor(0, 0, 0, 1);
             glClear(GL_COLOR_BUFFER_BIT);
             for (Layer* layer : m_LayerStack) {
                 layer->OnUpdate();
             }
-            m_window->OnUpdate();
+            m_Window->OnUpdate();
         }
     }
 

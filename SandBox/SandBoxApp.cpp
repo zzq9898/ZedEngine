@@ -1,5 +1,5 @@
 #include <ZedEntry.h>
-
+#include "Zed/ImGui/ImGuiLayer.h"
 class ExampleLayer : public Zed::Layer {
 public:
     ExampleLayer() : Layer("Example") {
@@ -7,7 +7,7 @@ public:
     }
 
     void OnUpdate() override{
-        ZED_INFO("ExampleLayer::Update");
+        //ZED_INFO("ExampleLayer::Update");
     }
 
     void OnEvent(Zed::Event& event) override {
@@ -18,6 +18,7 @@ class Sandbox : public Zed::Application {
 public:
     Sandbox(){
         PushOverlay(new ExampleLayer());
+        PushOverlay(new Zed::ImGuiLayer());
     }
 
     ~Sandbox()
