@@ -37,4 +37,5 @@ target_include_directories(ZedEngine PUBLIC
                             vendor/GLFW/include
                             vendor/imgui
                             vendor/imgui/backends
+                            vendor/glm
                             src)

@@ -7,3 +7,6 @@
 [submodule "Zed/vendor/imgui"]
 	path = Zed/vendor/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "Zed/vendor/glm"]
+	path = Zed/vendor/glm
+	url = https://github.com/g-truc/glm
