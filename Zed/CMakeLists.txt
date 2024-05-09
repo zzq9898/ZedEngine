@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 project(ZedEngine)
 
 file (GLOB SRC_LIST_IMGUI
@@ -18,6 +18,7 @@ set(SRC_LIST_IMGUI_BACKENDS
 set(SRC_LIST 
     vendor/GLAD/src/glad.c
     src/Platform/Windows/WindowsWindow.cpp
+    src/Platform/Windows/WindowsInput.cpp
     src/Zed/Core/Application.cpp
     src/Zed/Core/Log.cpp
     src/Zed/Core/Layer.cpp

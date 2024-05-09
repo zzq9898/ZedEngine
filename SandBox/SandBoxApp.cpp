@@ -8,6 +8,9 @@ public:
 
     void OnUpdate() override{
         //ZED_INFO("ExampleLayer::Update");
+        if (Zed::Input::IsKeyPressed(ZED_KEY_TAB)) {
+            ZED_TRACE("TAB key is pressed(poll)!");
+        }
     }
 
     void OnEvent(Zed::Event& event) override {

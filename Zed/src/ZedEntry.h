@@ -6,6 +6,11 @@
 #include "Zed/Core/Log.h"
 #include "Zed/Core/Layer.h"
 
+#include "Zed/Core/Input.h"
+#include "Zed/Core/ZedKeyCodes.h"
+#include "Zed/Core/ZedMouseButtonCodes.h"
+#include "Zed/Events/KeyEvent.h"
+
 // -----Entry Point-------
 #include "Zed/Core/EntryPoint.h"
 

@@ -15,7 +15,7 @@ namespace Zed {
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
 
-        ImGuiIO& io = ImGui::GetIO();
+        ImGuiIO io = ImGui::GetIO();
         io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
         io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
 
@@ -52,12 +52,12 @@ namespace Zed {
 
     void ImGuiLayer::OnUpdate() {
         ImGuiIO& io = ImGui::GetIO();
-        // Application& app = Application::Get();
-        // io.DisplaySize = ImVec2( app.GetWindow().GetWidth(), 2  * app.GetWindow().GetHeight());
+        Application& app = Application::Get();
+        io.DisplaySize = ImVec2( app.GetWindow().GetWidth(), 2  * app.GetWindow().GetHeight());
 
-        // float time = glfwGetTime();
-        // io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
-        // m_Time = time;
+        float time = glfwGetTime();
+        io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
+        m_Time = time;
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
