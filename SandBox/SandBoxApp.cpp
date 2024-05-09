@@ -21,7 +21,6 @@ class Sandbox : public Zed::Application {
 public:
     Sandbox(){
         PushOverlay(new ExampleLayer());
-        PushOverlay(new Zed::ImGuiLayer());
     }
 
     ~Sandbox()

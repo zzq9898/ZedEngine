@@ -6,6 +6,7 @@
 #include "Zed/Core/LayerStack.h"
 #include "Zed/Events/Event.h"
 #include "Zed/Events/ApplicationEvent.h"
+#include "Zed/ImGui/ImGuiLayer.h"
 namespace Zed{
     class Application {
     public:
@@ -27,6 +28,7 @@ namespace Zed{
         bool m_isRunning = true;
         LayerStack m_LayerStack;
         static Application* s_Instance;
+        ImGuiLayer* m_ImGuiLayer;
     };
 
     Application* CreateApplication();
