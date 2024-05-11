@@ -24,11 +24,18 @@ namespace Zed{
         }
     private:
         bool OnWindowClose(WindowCloseEvent& e);
+
+        static Application* s_Instance;
         std::unique_ptr<Window> m_Window;
         bool m_isRunning = true;
         LayerStack m_LayerStack;
-        static Application* s_Instance;
         ImGuiLayer* m_ImGuiLayer;
+
+        // Test:用于渲染
+        void testInitRendering();
+        unsigned int m_VertexArray;
+        unsigned int m_VertexBuffer, m_IndexBuffer;
+        unsigned int shaderProgram;
     };
 
     Application* CreateApplication();

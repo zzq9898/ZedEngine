@@ -12,6 +12,11 @@ namespace Zed {
         glfwMakeContextCurrent(m_WindowHandle);
         int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         ZED_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+        ZED_CORE_INFO("OpenGL Info:");
+        ZED_CORE_INFO(" Vendor: {0}", (char*)glGetString(GL_VENDOR));
+        ZED_CORE_INFO(" Renderer: {0}", (char*)glGetString(GL_RENDERER));
+        ZED_CORE_INFO(" Version: {0}", (char*)glGetString(GL_VERSION));
     }
 
     void OpenGLContext::SwapBuffers() {
