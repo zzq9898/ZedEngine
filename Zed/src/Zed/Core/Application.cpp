@@ -48,8 +48,6 @@ namespace Zed{
 
 
 
-
-
         // build and compile our shader program
         // ------------------------------------
         // vertex shader
@@ -64,45 +62,9 @@ namespace Zed{
                                            "out vec4 FragColor;\n"
                                            "void main()\n"
                                            "{\n"
-                                           "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                                           "   FragColor = vec4(0.0f, 0.5f, 0.2f, 1.0f);\n"
                                            "}\n\0";
-
-        unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-        glCompileShader(vertexShader);
-        // check for shader compile errors
-        int success;
-        char infoLog[512];
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-        }
-        // fragment shader
-        unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-        glCompileShader(fragmentShader);
-        // check for shader compile errors
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-        if (!success)
-        {
-            glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-        }
-        // link shaders
-        shaderProgram = glCreateProgram();
-        glAttachShader(shaderProgram, vertexShader);
-        glAttachShader(shaderProgram, fragmentShader);
-        glLinkProgram(shaderProgram);
-        // check for linking errors
-        glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-        if (!success) {
-            glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-            std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-        }
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
+        m_Shader = std::make_unique<Shader>(vertexShaderSource,fragmentShaderSource);
     }
 
     void Application::PushLayer(Layer *layer) {
@@ -147,10 +109,10 @@ namespace Zed{
             glClearColor(0.1, 0.1, 0.1, 1);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            glUseProgram(shaderProgram);
+            m_Shader->Bind();
             glBindVertexArray(m_VertexArray);
             glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
-            
+
             for (Layer* layer : m_LayerStack) {
                 layer->OnUpdate();
             }

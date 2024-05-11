@@ -7,6 +7,7 @@
 #include "Zed/Events/Event.h"
 #include "Zed/Events/ApplicationEvent.h"
 #include "Zed/ImGui/ImGuiLayer.h"
+#include "Zed/Renderer/Shader.h"
 namespace Zed{
     class Application {
     public:
@@ -35,7 +36,7 @@ namespace Zed{
         void testInitRendering();
         unsigned int m_VertexArray;
         unsigned int m_VertexBuffer, m_IndexBuffer;
-        unsigned int shaderProgram;
+        std::unique_ptr<Shader> m_Shader;
     };
 
     Application* CreateApplication();
