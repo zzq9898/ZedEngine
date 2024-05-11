@@ -3,7 +3,7 @@
 #include "Zed/Events/ApplicationEvent.h"
 #include "Zed/Events/KeyEvent.h"
 #include "Zed/Events/MouseEvent.h"
-//#include "Assert.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 namespace Zed {
     static bool s_GLFWInitialized =false;
 
@@ -48,16 +48,14 @@ namespace Zed {
 #endif
 
         m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(m_Window);
+
+		m_Context = new OpenGLContext(m_Window);
+		m_Context->Init();
+
         glfwSetWindowUserPointer(m_Window, &m_Data);
 
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-        {
-            ZED_CORE_INFO("Failed to initialize GLAD");
-            return;
-        }
         SetVSync(true);
-    
+
         // Set GLFW callbacks
         glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{
@@ -154,7 +152,7 @@ namespace Zed {
 
     void WindowsWindow::OnUpdate() {
         glfwPollEvents();
-        glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
     }
 
     void WindowsWindow::SetVSync(bool enabled) {

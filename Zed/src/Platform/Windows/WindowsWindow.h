@@ -2,8 +2,7 @@
 #define ZED_WINDOWSWINDOW_H
 
 #include "Zed/Core/Window.h"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "Zed/Renderer/GraphicsContext.h"
 namespace Zed{
     class WindowsWindow : public Window{
     public:
@@ -35,6 +34,7 @@ namespace Zed{
 
     private:
         GLFWwindow* m_Window;
+        GraphicsContext* m_Context;
 
         struct WindowData {
             std::string Title;
