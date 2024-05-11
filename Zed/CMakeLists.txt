@@ -15,10 +15,11 @@ set(SRC_LIST_IMGUI_BACKENDS
         vendor/imgui/backends/imgui_impl_glfw.cpp
 )
 
-set(SRC_LIST 
+file(GLOB SRC_LIST 
     vendor/GLAD/src/glad.c
     src/Platform/Windows/WindowsWindow.cpp
     src/Platform/Windows/WindowsInput.cpp
+    src/Platform/OpenGL/*.cpp
     src/Zed/Core/Application.cpp
     src/Zed/Core/Log.cpp
     src/Zed/Core/Layer.cpp
@@ -39,3 +40,6 @@ target_include_directories(ZedEngine PUBLIC
                             vendor/imgui/backends
                             vendor/glm
                             src)
+
+target_compile_definitions(ZedEngine PUBLIC
+                                ZED_ENABLE_ASSERTS)
