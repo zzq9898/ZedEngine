@@ -7,6 +7,25 @@
 namespace Zed{
     #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
     Application* Application::s_Instance = nullptr;
+
+    static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
+        switch (type) {
+            case ShaderDataType::Float:         return GL_FLOAT;
+            case ShaderDataType::Float2:        return GL_FLOAT;
+            case ShaderDataType::Float3:        return GL_FLOAT;
+            case ShaderDataType::Float4:        return GL_FLOAT;
+            case ShaderDataType::Mat3:          return GL_FLOAT;
+            case ShaderDataType::Mat4:          return GL_FLOAT;
+            case ShaderDataType::Int:           return GL_INT;
+            case ShaderDataType::Int2:          return GL_INT;
+            case ShaderDataType::Int3:          return GL_INT;
+            case ShaderDataType::Int4:          return GL_INT;
+            case ShaderDataType::Bool:          return GL_BOOL;
+        }
+        ZED_CORE_ASSERT(false, "Unknow ShaderDataType!");
+        return 0;
+    }
+
     Application::Application() {
         s_Instance = this;
         m_Window = std::unique_ptr<Window>(Window::Create());
@@ -25,37 +44,60 @@ namespace Zed{
         glGenVertexArrays(1, &m_VertexArray);
         glBindVertexArray(m_VertexArray);
 
-        float vertices[3 * 3] = {
-                -0.5f, -0.5, 0.0,
-                0.5f, -0.5f, 0.0f,
-                0.0f, 0.5f, 0.0f
+        float vertices[6 * 3] = {
+                // pos             //color
+                -0.5f, -0.5, 0.0,  1.0f, 0.0f, 0.0f,
+                0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+                0.0f, 0.5f, 0.0f,  0.0f, 0.0f, 1.0f
         };
 
         m_VertexBuffer.reset(VertexBuffer::Create(vertices,sizeof(vertices)));
         
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), nullptr);
+        // 设置layout
+        {
+            BufferLayout layout = {
+                    {ShaderDataType::Float3, "aPos"},
+                    {ShaderDataType::Float3, "aColor"},
+            };
+            m_VertexBuffer->SetLayout(layout);
+        }
+
+        // 读取layout并设置vao的属性
+        uint32_t index = 0;
+        const auto& layout = m_VertexBuffer->GetLayout();
+        for (const auto& element : layout) {
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(index,
+                                  element.GetComponentCount(),
+                                  ShaderDataTypeToOpenGLBaseType(element.Type),
+                                  element.Normallized ? GL_TRUE : GL_FALSE,
+                                  layout.GetStride(),
+                                  (const void*)((uintptr_t)element.Offset));
+            index++;
+        }
 
         unsigned int indices[3] = {0, 1, 2};
         m_IndexBuffer.reset(IndexBuffer::Create(indices,sizeof(indices)/sizeof(uint32_t)));
-
-
         // build and compile our shader program
         // ------------------------------------
         // vertex shader
 
-        const char *vertexShaderSource = "#version 330 core\n"
-                                         "layout (location = 0) in vec3 aPos;\n"
-                                         "void main()\n"
-                                         "{\n"
-                                         "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                         "}\0";
-        const char *fragmentShaderSource = "#version 330 core\n"
-                                           "out vec4 FragColor;\n"
-                                           "void main()\n"
-                                           "{\n"
-                                           "   FragColor = vec4(0.0f, 0.5f, 0.2f, 1.0f);\n"
-                                           "}\n\0";
+        const char *vertexShaderSource = R"(#version 330 core
+                                         layout (location = 0) in vec3 aPos;
+                                         layout (location = 1) in vec3 aColor;
+                                         out vec3 color;
+                                         void main()
+                                         {
+                                            gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+                                            color = aColor;
+                                         })";
+        const char *fragmentShaderSource = R"(#version 330 core
+                                           out vec4 FragColor;
+                                           in vec3 color;
+                                           void main()
+                                           {
+                                             FragColor = vec4(color, 1.0f);
+                                           })";
         m_Shader = std::make_unique<Shader>(vertexShaderSource,fragmentShaderSource);
     }
 
