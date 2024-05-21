@@ -10,6 +10,7 @@
 #include "Zed/Renderer/Shader.h"
 #include "Zed/Renderer/Buffer.h"
 #include "Zed/Renderer/VertexArray.h"
+#include "Zed/Renderer/OrthographicCamera.h"
 namespace Zed{
     class Application {
     public:
@@ -40,6 +41,7 @@ namespace Zed{
         std::shared_ptr<IndexBuffer> m_IndexBuffer;
         std::shared_ptr<Shader> m_Shader;
         std::shared_ptr<VertexArray> m_VertexArray;
+        OrthographicCamera *m_Camera;
     };
 
     Application* CreateApplication();

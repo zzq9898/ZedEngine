@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <stdint.h>
+#include <glm/glm.hpp>
 namespace Zed {
     class Shader {
     public:
@@ -9,6 +10,8 @@ namespace Zed {
 
         void Bind() const;
         void Unbind() const;
+
+        void SetMat4(const std::string& name, const glm::mat4& matrix);
     private:
         uint32_t m_RendererID;
     };

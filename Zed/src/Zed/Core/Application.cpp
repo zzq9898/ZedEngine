@@ -53,10 +53,11 @@ namespace Zed{
         const char *vertexShaderSource = R"(#version 330 core
                                          layout (location = 0) in vec3 aPos;
                                          layout (location = 1) in vec3 aColor;
+                                         uniform mat4 u_ViewProjection;
                                          out vec3 color;
                                          void main()
                                          {
-                                            gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+                                            gl_Position = u_ViewProjection * vec4(aPos.x, aPos.y, aPos.z, 1.0);
                                             color = aColor;
                                          })";
         const char *fragmentShaderSource = R"(#version 330 core
@@ -67,6 +68,8 @@ namespace Zed{
                                              FragColor = vec4(color, 1.0f);
                                            })";
         m_Shader = std::make_unique<Shader>(vertexShaderSource,fragmentShaderSource);
+
+        m_Camera = new OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
     }
 
     void Application::PushLayer(Layer *layer) {
@@ -110,9 +113,10 @@ namespace Zed{
         while(m_isRunning) {
             RenderCommand::SetClearColor({0.45f, 0.55f, 0.60f, 1.00f});
             RenderCommand::Clear();
-            Renderer::BeginScene();
-            m_Shader->Bind();
-            Renderer::Submit(m_VertexArray);
+            Renderer::BeginScene(*m_Camera);
+            m_Camera->SetPosition({0.5f, 0.5f, 0.0f});
+            m_Camera->SetRotation(45.0f);
+            Renderer::Submit(m_Shader,m_VertexArray);
             Renderer::EndScene();
 
             for (Layer* layer : m_LayerStack) {
