@@ -7,10 +7,6 @@
 #include "Zed/Events/Event.h"
 #include "Zed/Events/ApplicationEvent.h"
 #include "Zed/ImGui/ImGuiLayer.h"
-#include "Zed/Renderer/Shader.h"
-#include "Zed/Renderer/Buffer.h"
-#include "Zed/Renderer/VertexArray.h"
-#include "Zed/Renderer/OrthographicCamera.h"
 namespace Zed{
     class Application {
     public:
@@ -34,14 +30,6 @@ namespace Zed{
         bool m_isRunning = true;
         LayerStack m_LayerStack;
         ImGuiLayer* m_ImGuiLayer;
-
-        // Test:用于渲染
-        void testInitRendering();
-        std::shared_ptr<VertexBuffer> m_VertexBuffer;
-        std::shared_ptr<IndexBuffer> m_IndexBuffer;
-        std::shared_ptr<Shader> m_Shader;
-        std::shared_ptr<VertexArray> m_VertexArray;
-        OrthographicCamera *m_Camera;
     };
 
     Application* CreateApplication();
