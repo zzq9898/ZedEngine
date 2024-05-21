@@ -3,6 +3,8 @@
 #include "Zed/Core/Application.h"
 #include "Zed/Core/Log.h"
 #include "Zed/Events/ApplicationEvent.h"
+#include "Zed/Renderer/Renderer.h"
+#include "Zed/Renderer/RenderCommand.h"
 
 namespace Zed{
     #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
@@ -106,12 +108,12 @@ namespace Zed{
         }
 
         while(m_isRunning) {
-            glClearColor(0.1, 0.1, 0.1, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
-
+            RenderCommand::SetClearColor({0.45f, 0.55f, 0.60f, 1.00f});
+            RenderCommand::Clear();
+            Renderer::BeginScene();
             m_Shader->Bind();
-            m_VertexArray->Bind();
-            glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+            Renderer::Submit(m_VertexArray);
+            Renderer::EndScene();
 
             for (Layer* layer : m_LayerStack) {
                 layer->OnUpdate();

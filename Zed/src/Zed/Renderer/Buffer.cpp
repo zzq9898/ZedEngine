@@ -7,9 +7,9 @@
 namespace Zed {
     VertexBuffer *VertexBuffer::Create(float *vertices, uint32_t size) {
         switch (Renderer::GetAPI()) {
-            case RendererAPI::None: ZED_CORE_ASSERT(false, "RendererAPI::None is currently not supported!")
+            case RendererAPI::API::None: ZED_CORE_ASSERT(false, "RendererAPI::None is currently not supported!")
                 return nullptr;
-            case RendererAPI::OpenGL:
+            case RendererAPI::API::OpenGL:
                 return new OpenGLVertexBuffer(vertices, size);
 
         }
@@ -20,9 +20,9 @@ namespace Zed {
 
     IndexBuffer *IndexBuffer::Create(uint32_t *indices, uint32_t size) {
         switch (Renderer::GetAPI()) {
-            case RendererAPI::None: ZED_CORE_ASSERT(false, "RendererAPI::None is currently not supported!")
+            case RendererAPI::API::None: ZED_CORE_ASSERT(false, "RendererAPI::None is currently not supported!")
                 return nullptr;
-            case RendererAPI::OpenGL:
+            case RendererAPI::API::OpenGL:
                 return new OpenGLIndexBuffer(indices, size);
 
         }
