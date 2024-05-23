@@ -17,6 +17,7 @@ set(SRC_LIST_IMGUI_BACKENDS
 
 file(GLOB SRC_LIST 
     vendor/GLAD/src/glad.c
+    vendor/stb_image/stb_image.cpp
     src/Platform/Windows/WindowsWindow.cpp
     src/Platform/Windows/WindowsInput.cpp
     src/Platform/OpenGL/*.cpp
@@ -40,6 +41,7 @@ target_include_directories(ZedEngine PUBLIC
                             vendor/imgui
                             vendor/imgui/backends
                             vendor/glm
+                            vendor/stb_image
                             src)
 
 target_compile_definitions(ZedEngine PUBLIC

@@ -20,6 +20,7 @@
 #include "Zed/Renderer/Buffer.h"
 #include "Zed/Renderer/Shader.h"
 #include "Zed/Renderer/VertexArray.h"
+#include "Zed/Renderer/Texture.h"
 
 // -----Entry Point-------
 #include "Zed/Core/EntryPoint.h"
