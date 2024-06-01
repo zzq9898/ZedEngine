@@ -6,29 +6,38 @@
 namespace Zed {
 
     OpenGLTexture2D::OpenGLTexture2D(const std::string &path) : m_Path(path){
-        int width, height, channels;
         stbi_set_flip_vertically_on_load(1);
-        stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-        ZED_CORE_ASSERT(data, "Failed to load image!");
-        m_width = width;
-        m_height = height;
-
         glGenTextures(1, &m_RendererID);
-        glBindTexture(GL_TEXTURE_2D, m_RendererID);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
 
-        // OpenGL 4.5 +版本的API发生变化，用下面的设置方法
-        /*
-        glTextureStorage2D(m_RendererID, 1, GL_RGB8, m_Width, m_Height);
-		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, GL_RGB, GL_UNSIGNED_BYTE, data);
-        */
+        int width, height, nrComponents;
+        unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
+        if (data)
+        {
+            GLenum format;
+            if (nrComponents == 1)
+                format = GL_RED;
+            else if (nrComponents == 3)
+                format = GL_RGB;
+            else if (nrComponents == 4)
+                format = GL_RGBA;
 
-        stbi_image_free(data);
+            glBindTexture(GL_TEXTURE_2D, m_RendererID);
+            glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT); // for this tutorial: use GL_CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat 
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+            stbi_image_free(data);
+        }
+        else
+        {   
+            stbi_image_free(data);
+            ZED_CORE_ASSERT(data, "Failed to load image!");  
+        }
+
     }
 
     OpenGLTexture2D::~OpenGLTexture2D() {

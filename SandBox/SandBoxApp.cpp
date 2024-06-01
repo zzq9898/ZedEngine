@@ -66,14 +66,14 @@ public:
                                            uniform sampler2D testTexture;
                                            void main()
                                            {
-                                                vec3 color = texture(testTexture,TexCoord).rgb;
-                                                FragColor = vec4(color, 1.0f);
+                                                vec4 color = texture(testTexture,TexCoord);
+                                                FragColor = vec4(color);
                                            })";
         m_Shader = std::make_unique<Shader>(vertexShaderSource,fragmentShaderSource);
         m_Shader->Bind();
         m_Shader->SetInt("testTexture",0);
 
-        std::string texPath = m_RootPath+"/SandBox/assert/textures/Checkerboard.png";
+        std::string texPath = m_RootPath+"/SandBox/assets/textures/awesomeface.png";
         m_Texture = Texture2D::Create(texPath.c_str());
 
         m_Camera = new OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
