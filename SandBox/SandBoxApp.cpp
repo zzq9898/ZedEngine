@@ -43,33 +43,8 @@ public:
         m_VertexArray->SetIndexBuffer(m_IndexBuffer);
         // build and compile our shader program
         // ------------------------------------
-        // vertex shader
-
-        const char *vertexShaderSource = R"(#version 330 core
-                                         layout (location = 0) in vec3 aPos;
-                                         layout (location = 1) in vec2 aTexture;
-                                         layout (location = 2) in vec3 aNormal;
-                                         uniform mat4 u_ViewProjection;
-                                         uniform mat4 u_Model;
-                                         out vec2 TexCoord;
-                                         out vec3 Normal;
-                                         void main()
-                                         {
-                                            gl_Position = u_ViewProjection * u_Model * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-                                            TexCoord = aTexture;
-                                            Normal = aNormal;
-                                         })";
-        const char *fragmentShaderSource = R"(#version 330 core
-                                           out vec4 FragColor;
-                                           in vec2 TexCoord;
-                                           in vec3 Normal;
-                                           uniform sampler2D testTexture;
-                                           void main()
-                                           {
-                                                vec4 color = texture(testTexture,TexCoord);
-                                                FragColor = vec4(color);
-                                           })";
-        m_Shader.reset(Shader::Create(vertexShaderSource,fragmentShaderSource));
+        std::string shaderPath = m_RootPath+"/SandBox/assets/shaders/testShader.glsl";
+        m_Shader.reset(Shader::Create(shaderPath.c_str()));
         m_Shader->Bind();
         m_Shader->SetInt("testTexture",0);
 
