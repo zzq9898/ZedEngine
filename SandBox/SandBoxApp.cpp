@@ -69,7 +69,7 @@ public:
                                                 vec4 color = texture(testTexture,TexCoord);
                                                 FragColor = vec4(color);
                                            })";
-        m_Shader = std::make_unique<Shader>(vertexShaderSource,fragmentShaderSource);
+        m_Shader.reset(Shader::Create(vertexShaderSource,fragmentShaderSource));
         m_Shader->Bind();
         m_Shader->SetInt("testTexture",0);
 
