@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "Zed/Events/Event.h"
-
+#include "Zed/Core/TimeStep.h"
 namespace Zed {
     class Layer {
     public:
@@ -10,7 +10,7 @@ namespace Zed {
 
         virtual void OnAttach(){}
         virtual void OnDetach(){}
-        virtual void OnUpdate(){}
+        virtual void OnUpdate(Timestep ts){}
         virtual void OnImGuiRender(){}
         virtual void OnEvent(Event& event){}
 

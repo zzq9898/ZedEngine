@@ -30,6 +30,8 @@ namespace Zed{
         bool m_isRunning = true;
         LayerStack m_LayerStack;
         ImGuiLayer* m_ImGuiLayer;
+        
+        float m_LastFrameTime = 0;
     };
 
     Application* CreateApplication();

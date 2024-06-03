@@ -6,6 +6,8 @@
 
 #define BIT(x) (1 << x)
 
+#define ZED_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
 #ifdef ZED_ENABLE_ASSERTS
 #define ZED_ASSERT(x, ...) { if(!(x)) { ZED_ERROR("Assertion Failed: {0}", __VA_ARGS__);assert(x); } }
 #define ZED_CORE_ASSERT(x, ...) { if(!(x)) { ZED_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); assert(x); } }

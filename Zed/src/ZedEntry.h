@@ -14,9 +14,10 @@
 #include "Zed/Events/KeyEvent.h"
 
 // -----Renderer----------
+#include "Zed/Camera/OrthographicCamera.h"
+#include "Zed/Camera/OrthographicCameraController.h"
 #include "Zed/Renderer/RenderCommand.h"
 #include "Zed/Renderer/Renderer.h"
-#include "Zed/Renderer/OrthographicCamera.h"
 #include "Zed/Renderer/Buffer.h"
 #include "Zed/Renderer/Shader.h"
 #include "Zed/Renderer/VertexArray.h"

@@ -6,13 +6,12 @@
 #include "Zed/Renderer/Renderer.h"
 
 namespace Zed{
-    #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
     Application* Application::s_Instance = nullptr;
 
     Application::Application() {
         s_Instance = this;
         m_Window = std::unique_ptr<Window>(Window::Create());
-        m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+        m_Window->SetEventCallback(ZED_BIND_EVENT_FN(OnEvent));
         m_ImGuiLayer = new ImGuiLayer();
         PushOverlay(m_ImGuiLayer);
 
@@ -35,7 +34,7 @@ namespace Zed{
 
     void Application::OnEvent(Event &e) {
         EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+        dispatcher.Dispatch<WindowCloseEvent>(ZED_BIND_EVENT_FN(OnWindowClose));
         ZED_CORE_TRACE("{0}", e.ToString());
 
         for (auto it = m_LayerStack.end();  it != m_LayerStack.begin();) {
@@ -62,8 +61,12 @@ namespace Zed{
         }
 
         while(m_isRunning) {
+            float time = glfwGetTime();
+            Timestep timestep = time - m_LastFrameTime;
+            m_LastFrameTime = time;
+
             for (Layer* layer : m_LayerStack) {
-                layer->OnUpdate();
+                layer->OnUpdate(timestep);
             }
             m_ImGuiLayer->Begin();
             for(Layer* layer : m_LayerStack) {

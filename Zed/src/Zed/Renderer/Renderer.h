@@ -1,8 +1,7 @@
 #pragma once
-#include "RendererAPI.h"
-#include "OrthographicCamera.h"
-#include "Shader.h"
-
+#include "Zed/Renderer/RendererAPI.h"
+#include "Zed/Renderer/Shader.h"
+#include "Zed/Camera/OrthographicCamera.h"
 namespace Zed {
     class Renderer {
     public:

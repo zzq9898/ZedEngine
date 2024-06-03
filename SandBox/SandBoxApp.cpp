@@ -51,34 +51,14 @@ public:
         std::string texPath = m_RootPath+"/SandBox/assets/textures/awesomeface.png";
         m_Texture = Texture2D::Create(texPath.c_str());
 
-        m_Camera = new OrthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f);
-
+        m_CameraController = new OrthographicCameraController(1200.0f / 800.0f);
     }
 
-    void OnUpdate() override{
-        // 预留timestep
-        float ts = 0.01;
-        if (Zed::Input::IsKeyPressed(ZED_KEY_LEFT))
-            m_CameraPosition.x -= m_CameraMoveSpeed * ts;
-        else if (Zed::Input::IsKeyPressed(ZED_KEY_RIGHT))
-            m_CameraPosition.x += m_CameraMoveSpeed * ts ;
-
-        if (Zed::Input::IsKeyPressed(ZED_KEY_UP))
-            m_CameraPosition.y += m_CameraMoveSpeed * ts ;
-        else if (Zed::Input::IsKeyPressed(ZED_KEY_DOWN))
-            m_CameraPosition.y -= m_CameraMoveSpeed * ts ;
-
-        if (Zed::Input::IsKeyPressed(ZED_KEY_A))
-            m_CameraRotation += m_CameraRotationSpeed * ts;
-        if (Zed::Input::IsKeyPressed(ZED_KEY_D))
-            m_CameraRotation -= m_CameraRotationSpeed * ts;
-
+    void OnUpdate(Timestep ts) override{
+        m_CameraController->OnUpdate(ts);
         RenderCommand::SetClearColor({0.45f, 0.55f, 0.60f, 1.00f});
         RenderCommand::Clear();
-        Renderer::BeginScene(*m_Camera);
-        m_Camera->SetPosition(m_CameraPosition);
-        m_Camera->SetRotation(m_CameraRotation);
-
+        Renderer::BeginScene(m_CameraController->GetCamera());
         glm::mat4 modelMat = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
         m_Texture->Bind(0);
         Renderer::Submit(m_Shader,m_VertexArray,modelMat);
@@ -96,11 +76,7 @@ private:
     std::shared_ptr<IndexBuffer> m_IndexBuffer;
     std::shared_ptr<Shader> m_Shader;
     std::shared_ptr<VertexArray> m_VertexArray;
-    glm::vec3 m_CameraPosition = glm::vec3(0.0);
-    float m_CameraRotation = 0.0f;
-    float m_CameraMoveSpeed = 5.f;
-    float m_CameraRotationSpeed = 180.0f;
-    OrthographicCamera *m_Camera;
+    OrthographicCameraController *m_CameraController;
     std::shared_ptr<Texture2D> m_Texture;
 };
 

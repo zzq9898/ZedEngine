@@ -26,7 +26,8 @@ file(GLOB SRC_LIST
     src/Zed/Core/Layer.cpp
     src/Zed/Core/LayerStack.cpp
     src/Zed/ImGui/ImGuiLayer.cpp
-    src/Zed/Renderer/*.cpp)
+    src/Zed/Renderer/*.cpp
+    src/Zed/Camera/*.cpp)
 
 add_library(ZedEngine STATIC ${SRC_LIST} ${SRC_LIST_IMGUI} ${SRC_LIST_IMGUI_BACKENDS})
 
