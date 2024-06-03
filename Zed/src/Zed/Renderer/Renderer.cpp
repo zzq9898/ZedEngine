@@ -8,8 +8,8 @@ namespace Zed{
         RenderCommand::Init();
     }
 
-    void Renderer::BeginScene(OrthographicCamera(& camera)) {
-        m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+    void Renderer::BeginScene(const glm::mat4& ViewProjectionMatrix) {
+        m_SceneData->ViewProjectionMatrix = ViewProjectionMatrix;
     }
 
     void Renderer::EndScene() {

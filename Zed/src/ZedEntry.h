@@ -16,6 +16,7 @@
 // -----Renderer----------
 #include "Zed/Camera/OrthographicCamera.h"
 #include "Zed/Camera/OrthographicCameraController.h"
+#include "Zed/Camera/PerspectiveCamera.h"
 #include "Zed/Renderer/RenderCommand.h"
 #include "Zed/Renderer/Renderer.h"
 #include "Zed/Renderer/Buffer.h"

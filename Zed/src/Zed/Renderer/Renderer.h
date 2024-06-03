@@ -6,7 +6,7 @@ namespace Zed {
     class Renderer {
     public:
         static void Init();
-        static void BeginScene(OrthographicCamera &camera);
+        static void BeginScene(const glm::mat4 &ViewProjectionMatrix);
         static void EndScene();
         static void Submit(const std::shared_ptr<Shader> &shader, 
                     const std::shared_ptr<VertexArray> &vertexArray, 
