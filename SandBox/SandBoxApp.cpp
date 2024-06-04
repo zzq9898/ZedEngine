@@ -51,9 +51,7 @@ public:
         std::string texPath = m_RootPath+"/SandBox/assets/textures/awesomeface.png";
         m_Texture = Texture2D::Create(texPath.c_str());
 
-        m_CameraController = new OrthographicCameraController(1200.0f / 800.0f);
-
-        m_PerspectiveCamera = new PerspectiveCamera(glm::vec3(0.0f,0.0f,3.0f));
+        m_CameraController = std::make_shared<PerspectiveCameraController>(glm::vec3(0.0, 0.0, 3.0));
     }
 
     void OnUpdate(Timestep ts) override{
@@ -61,16 +59,9 @@ public:
         RenderCommand::SetClearColor({0.45f, 0.55f, 0.60f, 1.00f});
         RenderCommand::Clear();
 
-        // 1、正交相机
-        Renderer::BeginScene(m_CameraController->GetCamera().GetViewProjectionMatrix());
+        // 透视相机设置PV矩阵
+        Renderer::BeginScene(m_CameraController->GetProjectionMatrix() * m_CameraController->GetViewMatrix());
 
-        // 2、透视相机，目前固定位置，后续可以增加对应controller实现事件监视等
-        // // pass projection matrix to shader (note that in this case it could change every frame)
-        // glm::mat4 projection = glm::perspective(glm::radians(m_PerspectiveCamera->Zoom), (float)1200 / (float)800, 0.1f, 100.0f);
-        // // camera/view transformation
-        // glm::mat4 view = m_PerspectiveCamera->GetViewMatrix();
-        // Renderer::BeginScene(projection*view);
-    
         glm::mat4 modelMat = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
         m_Texture->Bind(0);
         Renderer::Submit(m_Shader,m_VertexArray,modelMat);
@@ -78,7 +69,7 @@ public:
     }
 
     void OnEvent(Zed::Event& event) override {
-
+        m_CameraController->OnEvent(event);
     }
 
 private:
@@ -88,10 +79,8 @@ private:
     std::shared_ptr<IndexBuffer> m_IndexBuffer;
     std::shared_ptr<Shader> m_Shader;
     std::shared_ptr<VertexArray> m_VertexArray;
-    OrthographicCameraController *m_CameraController;
+    std::shared_ptr<PerspectiveCameraController> m_CameraController;
     std::shared_ptr<Texture2D> m_Texture;
-
-    PerspectiveCamera *m_PerspectiveCamera;
 };
 
 class Sandbox : public Zed::Application {

@@ -11,7 +11,9 @@ namespace Zed{
         FORWARD,
         BACKWARD,
         LEFT,
-        RIGHT
+        RIGHT,
+        UP,
+        DOWN
     };
 
     // Default camera values
