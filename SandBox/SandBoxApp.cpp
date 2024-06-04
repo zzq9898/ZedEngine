@@ -7,40 +7,38 @@
 #include <glm/ext/matrix_clip_space.hpp> // glm::perspective
 #include <glm/ext/scalar_constants.hpp> // glm::pi
 
+#include "CommonObjects.h"
+
 using namespace Zed;
 
 class ExampleLayer : public Zed::Layer {
 public:
     ExampleLayer() : Layer("Example") {
         m_RootPath = PROJECT_PATH;
-    
-        m_VertexArray.reset(VertexArray::Create());
 
-        float vertices[8 * 4] = {
-            // pos            //tex      //normal
-            -1.0f, -1.0, 0.0, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-            1.0f, -1.0, 0.0, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f
-        };
+        // 读取object
+        std::vector<float> vertices;
+        std::vector<unsigned int> indices;
+        CommonObj::getCubeObj(vertices,indices);
 
-        m_VertexBuffer.reset(VertexBuffer::Create(vertices,sizeof(vertices)));
+        // vbo
+        m_VertexBuffer.reset(VertexBuffer::Create(&vertices[0],sizeof(float)*vertices.size()));
         
-        // 设置layout
         BufferLayout layout = {
                 {ShaderDataType::Float3, "aPos"},
                 {ShaderDataType::Float2, "aTexture"},
                 {ShaderDataType::Float3, "aNormal"},
         };
         m_VertexBuffer->SetLayout(layout);
-        m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
-        unsigned int indices[6] = {
-            0, 1, 2,
-            1, 3, 2
-        };
-        m_IndexBuffer.reset(IndexBuffer::Create(indices,sizeof(indices)/sizeof(uint32_t)));
+        // ebo
+        m_IndexBuffer.reset(IndexBuffer::Create(&indices[0],indices.size()));
+
+        // vao
+        m_VertexArray.reset(VertexArray::Create());
+        m_VertexArray->AddVertexBuffer(m_VertexBuffer);
         m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+
         // build and compile our shader program
         // ------------------------------------
         std::string shaderPath = m_RootPath+"/SandBox/assets/shaders/testShader.glsl";
