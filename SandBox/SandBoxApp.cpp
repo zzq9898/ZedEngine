@@ -14,12 +14,17 @@ using namespace Zed;
 class ExampleLayer : public Zed::Layer {
 public:
     ExampleLayer() : Layer("Example") {
-        m_RootPath = PROJECT_PATH;
+        #ifdef PROJECT_PATH
+            m_RootPath = PROJECT_PATH;
+        #else
+            ZED_ERROR("No define Project Root Path!");
+            exit(0);
+        #endif
 
         // 读取object
         std::vector<float> vertices;
         std::vector<unsigned int> indices;
-        CommonObj::getCubeObj(vertices,indices);
+        CommonObj::getSphereObj(vertices,indices);
 
         // vbo
         m_VertexBuffer.reset(VertexBuffer::Create(&vertices[0],sizeof(float)*vertices.size()));
@@ -32,7 +37,7 @@ public:
         m_VertexBuffer->SetLayout(layout);
 
         // ebo
-        m_IndexBuffer.reset(IndexBuffer::Create(&indices[0],indices.size()));
+        m_IndexBuffer.reset(IndexBuffer::Create(&indices[0], indices.size()));
 
         // vao
         m_VertexArray.reset(VertexArray::Create());
