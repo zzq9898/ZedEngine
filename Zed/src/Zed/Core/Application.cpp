@@ -10,7 +10,9 @@ namespace Zed{
 
     Application::Application() {
         s_Instance = this;
-        m_Window = std::unique_ptr<Window>(Window::Create());
+
+        WindowProps props("Zed Engine", m_ScrWidth, m_ScrHeight);
+        m_Window = std::unique_ptr<Window>(Window::Create(props));
         m_Window->SetEventCallback(ZED_BIND_EVENT_FN(OnEvent));
         m_ImGuiLayer = new ImGuiLayer();
         PushOverlay(m_ImGuiLayer);
@@ -51,15 +53,6 @@ namespace Zed{
     }
 
     void Application::Run() {
-        WindowResizeEvent e(1200, 720);
-        if (e.IsInCategory(EventCategoryApplication)) {
-            ZED_TRACE(e.ToString());
-        }
-
-        if (e.IsInCategory(EventCategoryInput)) {
-            ZED_TRACE(e.ToString());
-        }
-
         while(m_isRunning) {
             float time = glfwGetTime();
             Timestep timestep = time - m_LastFrameTime;

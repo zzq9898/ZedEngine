@@ -32,6 +32,9 @@ namespace Zed{
         ImGuiLayer* m_ImGuiLayer;
         
         float m_LastFrameTime = 0;
+    
+    protected:
+        const uint32_t m_ScrWidth = 1280, m_ScrHeight = 720;
     };
 
     Application* CreateApplication();

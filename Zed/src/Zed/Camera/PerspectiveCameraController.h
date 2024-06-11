@@ -8,7 +8,9 @@
 namespace Zed {
     class PerspectiveCameraController {
     public:
-        PerspectiveCameraController(glm::vec3 cameraPosition);
+        PerspectiveCameraController(glm::vec3 cameraPosition, 
+                                    uint32_t width = 1280, 
+                                    uint32_t height = 720);
         void OnUpdate(Timestep ts);
         void OnEvent(Event& e);
 
@@ -21,7 +23,7 @@ namespace Zed {
     
         glm::mat4 GetProjectionMatrix(){
             glm::mat4 projection =
-                glm::perspective(glm::radians(m_Camera.Zoom), (float)1200 / (float)800, 0.1f, 100.0f);
+                glm::perspective(glm::radians(m_Camera.Zoom), (float)m_ScrWidth / (float)m_ScrHeight, 0.1f, 100.0f);
             return projection;
         }
 
@@ -33,6 +35,7 @@ namespace Zed {
         bool OnMouseButtonReleased(MouseButtonReleasedEvent& e);
 
     private:
+        uint32_t m_ScrWidth = 0, m_ScrHeight = 0;
         PerspectiveCamera m_Camera;
         MouseCode m_MouseMoveRestrict = Mouse::ButtonRight;
         bool m_MouseMoveRestrictPressed = false;

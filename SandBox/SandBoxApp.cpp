@@ -13,7 +13,7 @@ using namespace Zed;
 
 class ExampleLayer : public Zed::Layer {
 public:
-    ExampleLayer() : Layer("Example") {
+    ExampleLayer(uint32_t width, uint32_t height) : Layer("Example") {
         #ifdef PROJECT_PATH
             m_RootPath = PROJECT_PATH;
         #else
@@ -54,7 +54,7 @@ public:
         std::string texPath = m_RootPath+"/SandBox/assets/textures/awesomeface.png";
         m_Texture = Texture2D::Create(texPath.c_str());
 
-        m_CameraController = std::make_shared<PerspectiveCameraController>(glm::vec3(0.0, 0.0, 3.0));
+        m_CameraController = std::make_shared<PerspectiveCameraController>(glm::vec3(0.0, 0.0, 3.0), width, height);
     }
 
     void OnUpdate(Timestep ts) override{
@@ -96,7 +96,7 @@ public:
         exit(0);
     #endif
 
-        PushLayer(new ExampleLayer());
+        PushLayer(new ExampleLayer(this->m_ScrWidth, this->m_ScrHeight));
     }
 
     ~Sandbox()

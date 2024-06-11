@@ -4,8 +4,9 @@
 #include "Zed/Core/Base.h"
 
 namespace Zed {
-    PerspectiveCameraController::PerspectiveCameraController(glm::vec3 cameraPosition) 
-        : m_Camera(cameraPosition)
+    PerspectiveCameraController::PerspectiveCameraController(
+                        glm::vec3 cameraPosition, uint32_t width, uint32_t height) 
+        : m_Camera(cameraPosition), m_ScrWidth(width), m_ScrHeight(height)
     {}
 
     void PerspectiveCameraController::OnUpdate(Timestep ts) {
